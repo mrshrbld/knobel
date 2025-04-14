@@ -1,0 +1,6 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 171-685-568
+INFO:werkzeug:127.0.0.1 - - [02/Nov/2024 19:50:16] "[33mGET /table3 HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [02/Nov/2024 19:50:21] "[33mGET /table1 HTTP/1.1[0m" 404 -
+INFINFO:werkzeug: * Restarting with stat
+sers\\herbo\\Dropbox\\Visual_Studio_Projects\\Knobeln_123_flask_NEW\\class_game.py', reloading
