@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Correct</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>Knobeln</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th> <!-- empty cell above "Round" -->
+          {% for player in table.players %}
+          <th colspan="3" style="text-align: center;">'{{ player.name }}'</th>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th style="text-align: center;">Round</th>
+          {% for player in table.players %}
+          <th style="text-align: center;">input</th>
+          <th style="text-align: center;">points</th>
+          <th style="text-align: center;">sum</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <form action="/table{{ table.index }}/update" method="POST">
+            <td style="text-align: center;"> {{ table.round }}' new</td>
+            {% for player in table.players %}
+            <td colspan="3" style="text-align: center;">
+              <select class="select" name='{{ player.name }}'>
+                <option>Click</option>
+                <option value="0">0 : 0 Points</option>
+                <optgroup label="1XX">
+                  <option value="104">104 : 5 Points</option>
+                  <option value="105">105 : 10 Points</option>
+                  <option value="106">106 : 15 Points</option>
+                  <option value="107">107 : 20 Points</option>
+                  <option value="108">108 : 25 Points</option>
+                  <option value="109">109 : 30 Points</option>
+                  <option value="110">110 : 35 Points</option>
+                </optgroup>
+                <optgroup label="12X">
+                  <option value="122">122 : 40 Points</option>
+                  <option value="123">123 : 45 Points</option>
+                  <option value="124">124 : 50 Points</option>
+                  <option value="125">125 : 55 Points</option>
+                </optgroup>
+                <optgroup label="16X">
+                  <option value="162">162 : 60 Points</option>
+                  <option value="163">163 : 65 Points</option>
+                  <option value="164">164 : 70 Points</option>
+                  <option value="165">165 : 75 Points</option>
+                </optgroup>
+                <optgroup label="2XX">
+                  <option value="202">202 : 80 Points</option>
+                  <option value="203">203 : 85 Points</option>
+                  <option value="204">204 : 90 Points</option>
+                  <option value="205">205 : 95 Points</option>
+                  <option value="220">220 : 100 Points</option>
+                  <option value="260">260 : 105 Points</option>
+                </optgroup>
+                <optgroup label="Pairs">
+                  <option value="g111">g111 : 110 Points</option>
+                  <option value="222">222 : 120 Points</option>
+                  <option value="333">333 : 130 Points</option>
+                  <option value="444">444 : 140 Points</option>
+                  <option value="555">555 : 150 Points</option>
+                  <option value="666">666 : 160 Points</option>
+                  <option value="111">111 : 180 Points</option>
+                </optgroup>
+                <optgroup label="Straights">
+                  <option value="2,3,4">2,3,4 : 165 Points</option>
+                  <option value="3,4,5">3,4,5 : 175 Points</option>
+                  <option value="4,5,6">4,5,6 : 190 Points</option>
+                  <option value="1,2,3">1,2,3 : 200 Points</option>
+                </optgroup>
+              </select>
+            </td>
+            {% endfor %}
+            <td style="text-align: center;"> <button type="submit" name="reload_pin" value="{{ table.pin }}">Check & Save</button> </td>
+          </form>
+        </tr>
+        <tr>
+          <td style="text-align: center;"> {{ table.round }}' old </td>
+          {% for player in table.players %}
+          <td style="text-align: center;"> '{{ player.input }}' </td>
+          <td style="text-align: center;"> '{{ player.points }}' </td>
+          <td style="text-align: center;"> '{{ player.sum }}' </td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+{% endblock %}

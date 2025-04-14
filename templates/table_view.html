@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Table View</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>Knobeln</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            {% for player in table.players %}
+            <th colspan="3">'{{ player.name }}'</th>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th>Round</th>
+            {% for player in table.players %}
+            <th>input</th>
+            <th>points</th>
+            <th>sum</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for line in data %}
+          <tr>
+            <th>'{{ line[0] }}'</th>
+            {% for player in range_players %}
+            <th>'{{ line[player*3+1] }}'</th>
+            <th>'{{ line[player*3+2] }}'</th>
+            <th>'{{ line[player*3+3] }}'</th>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <form action="/table{{ table.index }}/reload" method="POST">
+        <input type="text" name='reload_pin' placeholder="Reload-Pin" maxlength="4" autocomplete="off">
+        <input type="submit" value="Reload">
+    </form>
+</div>
+{% endblock %}

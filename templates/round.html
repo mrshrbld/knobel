@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Game Round</title>
+<!-- <meta http-equiv="refresh" content="10" /> -->
+{% endblock %}
+
+{% block body %}
+<div class="content">
+  <h1>Knobeln</h1>
+  <table class="table">
+    <span> Game Round: '{{ game.round_tables }}'/'{{ game.rounds_tables }}'</span>  
+    <tbody>
+      <tr>
+        <th> Link </th>
+        <th> QR-Code </th>
+        <th> Table Index </th>
+        <th> Table Round </th>
+        {% for player in range1 %}
+        <th> Player'{{ player }}'</th>
+        <th> Sum </th>
+        {% endfor %}
+      </tr>
+      {% for table in game.tables %}
+      <tr>
+        <form action="/table{{ table.index }}" method="POST">
+        <td> <button> Go to Table </button> </td>
+        <td> Table-QR-Code </td>
+        </form>
+        <td> '{{ table.index }}' </td>
+        <td> '{{ table.round }}'/'{{ table.rounds_table }}' </td>
+        {% for player in table.players %}
+        <td> '{{ player.name }}' </td>
+        <td> '{{ player.sum }}' </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <table>
+    <tr>
+      <td>
+        {% if end_game %}
+          {% if end_round %}
+            <form action="/game_end" method="POST">
+              <button type="submit"> End Game </button>
+            </form>
+          {% else %}
+            <form action="/game_end" method="POST">
+              <button type="submit" disabled> End Game </button>
+            </form>
+          {% endif %}
+        {% else %}
+          {% if end_round %}
+            <form action="/round_end" method="POST">
+              <button type="submit"> Next Round </button>
+            </form>
+          {% else %}
+            <form action="/round_end" method="POST">
+              <button type="submit" disabled> Next Round </button>
+            </form>
+          {% endif %}
+        {% endif %}
+      </td>
+      <td>
+        <form action="/round_restart" method="POST">
+          <button type="submit" disabled> Restart Round </button>
+        </form>
+      </td>
+      <td>
+        <form action="/game_restart" method="POST">
+          <button type="submit" disabled> Restart Game </button>
+        </form>
+      </td>
+    </tr>
+  </table>  
+</div>
+{% endblock %}

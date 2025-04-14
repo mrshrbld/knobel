@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Title</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>Knobeln</h1>
+    <text> Chose player for input! </text>
+    <form action="/table{{ table.index }}/chose_player" method="POST">
+        {% for player in table.players %}
+        <button type="submit" name='{{ player.name }}')>'{{ player.name }}'</button>
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}
