@@ -648,4 +648,4 @@ def after_request(response):
 
 ## Allows to run the app/webpage as usual python scripts
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
