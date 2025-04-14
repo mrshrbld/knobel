@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Start Game</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>Knobeln</h1>
+    <table class="table">
+        <tbody>
+          <tr> <th colspan="2"> Settings for the Game </th> </tr>
+          <tr>
+            <form action="/game" method="POST">
+            <td> <span> Rounds with all Tables: </span> <input size="2" name="rounds_tables" value="{{ rounds_tables }}"> </td>
+            <td> <span> Players at Tables: </span> <input size="2" name="players_table" value="{{ players_table }}"> </td>                        
+          </tr>
+          <tr>
+            {% if players_list == ['player0'] %}
+            <td> <span> Coma separated List of Players: <input name="players_list" value="{{ players_list}}" placeholder="Coma-Separated Players-List"> </span> </td>
+            <td> <span> Number of players: {{ no_players }}</span></td>
+            {% else %}
+            <td> <span> Coma separated List of Players: <input name="players_list" value="{{ players_list }}"> </span> </td>
+            <td> <span> Number of players: {{ no_players }}</span></td>
+            
+            {% endif %}
+          </tr>
+          <tr> <th colspan="2"> Settings for the Tables </th> </tr>
+          <td> <span> Rounds at all Tables: </span> <input size="2" name="rounds_table" value="{{ rounds_table }}"> </td>
+          <tr>
+            <td> <button type="submit" onclick='name="settings_fixed"' value="False"> Save Settings </button> </td>
+            {% if players_list == ['player0'] %}
+            <td> <button type="submit" disabled> Start Game </button> </td>
+            {% else %}
+            <td> <button type="submit" onclick='name="settings_fixed"' value="True"> Start Game </button> </td>
+            {% endif %}
+            </form>
+          </tr>
+        </tbody>
+      </table>
+</div>
+{% endblock %}
