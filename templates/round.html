@@ -2,7 +2,7 @@
 
 {% block head %}
 <title>Game Round</title>
-<!-- <meta http-equiv="refresh" content="10" /> -->
+<meta http-equiv="refresh" content="30" />
 {% endblock %}
 
 {% block body %}
@@ -70,6 +70,11 @@
       <td>
         <form action="/game_restart" method="POST">
           <button type="submit" disabled> Restart Game </button>
+        </form>
+      </td>
+      <td>
+        <form action="/game_points" method="POST">
+          <button type="submit"> Game Points </button>
         </form>
       </td>
     </tr>
