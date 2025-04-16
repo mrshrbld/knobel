@@ -9,7 +9,7 @@
 <div class="content">
     <h1>Knobeln</h1>
     <h3>Reload-Pin: '{{ table.pin }}' </h3>
-    {% if not(end_table) %}
+    {% if not(table.ending) %}
       <form action="/table{{ table.index }}/end" method="POST">
         <button type="submit" disabled> End Table </button>
       </form>
@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          {% if not(end_table) %}
+          {% if not(table.ending) %}
           <tr>
             <form action="/table{{ table.index }}/check" method="POST">
               <td style="text-align: center;"> {{ table.round }}' </td>
