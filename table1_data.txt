@@ -1,2 +1,4 @@
-                    Melvin                    Maurice                     Marius         
+                   Maurice                     Miguel                    Myleene         
    Round    input   points      sum    input   points      sum    input   points      sum
+       0      104        5        5      110       35       35      108       25       25
+       1      105       10       15      106       15       50      106       15       40

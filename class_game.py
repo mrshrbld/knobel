@@ -5,6 +5,7 @@
 master_key = 2410
 existing_game = False
 settings_fixed = 'False'
+end_game = False
 
 ## Load needed modules
 import numpy as np
@@ -358,20 +359,35 @@ def game_load():
     """
     return 'game_load() Feature to include later'
 
+def game_points():
+    """
+    Show live game points of all players
+    """
+    list = []
+    for player in g.players:
+            list.append([player.name, int(np.array(player.sum_history).sum()+player.sum)])
+    list = np.array(list)
+    list = np.flip(list[np.argsort(list[:,1])], axis=0)
+    return render_template('table_end.html', data=list,
+                                range_players=range(len(g.players)))
 
 def game_end():
     """
     End game and show closing ceremony
     """
+    global end_game
         # end screen of game (leaderboard, later build option for ceremony act)
         # option for later: players can be included for rest of the game
         # option for later: live update of the points per player
-    for player in g.players:
-        player.save_history()
-    g.round_tables += 1
-    return render_template('table_end.html', data=g.closing(),
-                                    range_players=range(len(g.players)))
-    # for better traceability change table_end to end_screen or something
+    if not(end_game):
+        return redirect(f"/game")
+    else:
+        for player in g.players:
+            player.save_history()
+        g.round_tables += 1
+        return render_template('table_end.html', data=g.closing(),
+                                range_players=range(len(g.players)))
+        # for better traceability change table_end to end_screen or something
 
 def round_tables():
     """
@@ -583,9 +599,12 @@ def table_end(index):
     index = int(index)
     global g
     table_check_index(index)
-    g.tables[index].finished = True
-    return render_template('table_end.html', data=g.tables[index].closing(),
-                                    range_players=range(len(g.tables[index].players)))
+    if not(g.tables[index].ending):
+        return redirect(f"/table{index}")
+    else:
+        g.tables[index].finished = True
+        return render_template('table_end.html', data=g.tables[index].closing(),
+                                range_players=range(len(g.tables[index].players)))
 
 ## Flask call of servers game
 # Initialize game
@@ -595,6 +614,10 @@ app.add_url_rule(f"/game",
 # Restart game
 app.add_url_rule(f"/game_restart",
                  view_func=game_restart, methods=['GET', 'POST'])
+
+# Show game points for all players
+app.add_url_rule(f"/game_points",
+                 view_func=game_points, methods=['GET', 'POST'])
 
 # End game
 app.add_url_rule(f"/game_end",

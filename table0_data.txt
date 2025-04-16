@@ -1,2 +1,4 @@
-                    Miguel                    Marischa                    Myleene         
+                    Melvin                     Marius                   Marischa         
    Round    input   points      sum    input   points      sum    input   points      sum
+       0      105       10       10      106       15       15      104        5        5
+       1      109       30       40      110       35       50      107       20       25
