@@ -149,6 +149,7 @@ class game:
             for value in player.sum_history:
                 table_entry.append(value)
             table.append(table_entry)
+            print(vars(player))
         print(table)
         table = np.array(table)
         table = np.flip(table[np.argsort(table[:,1])], axis=0)
@@ -163,6 +164,7 @@ class table:
         self.round = 0 # Current round
         self.create()
         self.active = False
+        self.ending = False
         self.finished = False
         self.pin = randint(1000,9999)
         # # only for testing
@@ -304,14 +306,11 @@ def game_start():
         existing_game = True # needs to be adapted as table input options
         # These following 'standard' parameters are somehow redundant
         # in the class definition
-        # players_list = ['player0']
-        players_list = "Marius,Maurice"
-        # for testing paramters changed
-        rounds_tables = 1
-        players_table = 1
-        rounds_table = 1
-        no_players = 0
-        # for testing paramters changed
+        players_list = ['player0']
+        rounds_tables = 5
+        players_table = 4
+        rounds_table = 25
+        no_players = 1
     elif settings_fixed == 'False':
         players_list = request.form['players_list']
         rounds_tables = int(request.form['rounds_tables'])
@@ -367,6 +366,9 @@ def game_end():
         # end screen of game (leaderboard, later build option for ceremony act)
         # option for later: players can be included for rest of the game
         # option for later: live update of the points per player
+    for player in g.players:
+        player.save_history()
+    g.round_tables += 1
     return render_template('table_end.html', data=g.closing(),
                                     range_players=range(len(g.players)))
     # for better traceability change table_end to end_screen or something
@@ -434,7 +436,9 @@ def table_start(index):
         index = int(index)
         global g
         table_check_index(index)
-        end_table = False
+        # Check if table is finished and go to table_end
+        if g.tables[index].finished:
+            return redirect(f"/table{index}/end")
         # Load table data from file for overview
         # Also option to start a table at certain status 
         # by manipulating the specific file
@@ -444,17 +448,14 @@ def table_start(index):
         data = np.flip(data, axis=0)[:5]
         # Check table for end/exit condition
         if g.tables[index].round >= g.tables[index].rounds_table:
-            end_table = True
+            g.tables[index].ending = True
         # Continue table normally
         # Check if toke is already defined (input only from one tab)
         if not(g.tables[index].active):
-            # First table tab
-            # # only for testing
-            # g.tables[index].active = True
-            # # only for testing
+            # First tab of table to input data
+            g.tables[index].active = True
             return render_template('table.html', table=g.tables[index], data=data, 
-                            range_players=range(len(g.tables[index].players)),
-                            end_table=end_table)
+                            range_players=range(len(g.tables[index].players)))
         else:
             # Render only overview of table, to restrict input only from one tab
             return render_template('table_view.html', table=g.tables[index], data=data, 
@@ -648,4 +649,4 @@ def after_request(response):
 
 ## Allows to run the app/webpage as usual python scripts
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
